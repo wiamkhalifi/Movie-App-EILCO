@@ -1,5 +1,7 @@
 package com.example.movieapp.API;
 
+import com.example.movieapp.Model.Genre;
+import com.example.movieapp.Model.ListGenres;
 import com.example.movieapp.Model.MoviesResponse;
 
 import retrofit2.Call;
@@ -14,4 +16,7 @@ public interface Service {
 
     @GET("movie/upcoming")
     Call<MoviesResponse> getUpcoming(@Query("api_key") String apiKey);
+
+    @GET("genre/movie/list")
+    Call<ListGenres> listGenres (@Query("api_key") String apiKey);
 }

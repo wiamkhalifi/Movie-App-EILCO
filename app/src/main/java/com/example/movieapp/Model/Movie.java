@@ -2,9 +2,13 @@ package com.example.movieapp.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Movie implements java.io.Serializable {
     @SerializedName("poster_path")
     private String posterPath;
+    List<Integer> genre_ids;
     private String imageUrl;
     private String title;
     private String desc;
@@ -72,6 +76,15 @@ public class Movie {
     public String getVoteAverage() {
         return voteAverage;
     }
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
+    }
+
 
     public Movie(String posterPath, String desc, String imageUrl, String title,String original_language,String release_date,String vote_average) {
         this.posterPath = posterPath;

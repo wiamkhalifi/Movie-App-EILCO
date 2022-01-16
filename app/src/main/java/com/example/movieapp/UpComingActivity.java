@@ -13,10 +13,13 @@ import android.view.MenuItem;
 import com.example.movieapp.API.Client;
 import com.example.movieapp.API.Service;
 import com.example.movieapp.Adapter.MoviesAdapter;
+import com.example.movieapp.Model.Genre;
+import com.example.movieapp.Model.ListGenres;
 import com.example.movieapp.Model.Movie;
 import com.example.movieapp.Model.MoviesResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +29,7 @@ import retrofit2.Response;
 public class UpComingActivity extends AppCompatActivity {
 
     public List<Movie> UpMovies;
+    ArrayList<Genre> genresList = new ArrayList<Genre>();
     BottomNavigationView btm;
     RecyclerView.LayoutManager llm;
     //  LinearLayoutManager linear;
@@ -34,10 +38,10 @@ public class UpComingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_coming);
-        RecyclerView rvMovUp = (RecyclerView) findViewById(R.id.recyclerViewUp);
+       // RecyclerView rvMovUp = (RecyclerView) findViewById(R.id.recyclerViewUp);
         llm=new LinearLayoutManager(this);
         // linear=new LinearLayoutManager(this);
-        rvMovUp.setLayoutManager(llm);
+       // rvMovUp.setLayoutManager(llm);
 
         btm = findViewById(R.id.bottom_navigation_up);
         btm.setSelectedItemId(R.id.action_upcoming);
@@ -49,15 +53,32 @@ public class UpComingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 List<Movie> UpMovies= response.body().getResults();
-                MoviesAdapter adapter = new MoviesAdapter(UpMovies);
+                RecyclerView rvMovUp = (RecyclerView) findViewById(R.id.recyclerViewUp);
+                MoviesAdapter adapter = new MoviesAdapter(UpMovies,genresList);
                 // rvMov.setAdapter(adapter);
                 //  rvMov.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 rvMovUp.setAdapter( adapter );
+                rvMovUp.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 Log.d("Erreur !", t.getMessage());
+
+            }
+        });
+
+        Call<ListGenres> call2 = apiService.listGenres(BuildConfig.THE_MOVIE_DB_API_TOKEN);
+        call2.enqueue(new Callback<ListGenres>() {
+            @Override
+            public void onResponse(Call<ListGenres> call, Response<ListGenres> response) {
+                genresList=response.body().getGenres();
+            }
+
+            @Override
+            public void onFailure(Call<ListGenres> call, Throwable t) {
+                System.out.println("Error " + t.getMessage());
+                genresList = new ArrayList<Genre>();
 
             }
         });

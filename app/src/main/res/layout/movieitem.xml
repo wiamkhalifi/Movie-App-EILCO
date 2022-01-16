@@ -75,13 +75,13 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="69dp"
+            android:background="@color/finalColor"
             android:fontFamily="cursive"
             android:gravity="center_vertical"
             android:text=""
-            android:background="@color/finalColor"
             android:textAlignment="center"
             android:textColor="@color/shadColor"
-            android:textSize="30sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
 
